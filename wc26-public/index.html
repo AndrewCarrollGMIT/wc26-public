@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="color-scheme" content="light only">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>World Cup 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root {
+  color-scheme: light only;
   --bg:       #F2F4F7;
   --surface:  #FFFFFF;
   --surface2: #F8F9FB;
@@ -113,6 +115,7 @@ tr.q3 td:first-child{box-shadow:inset 3px 0 0 var(--amber)}
 .empty h3{font-family:'Oswald';font-size:18px;color:var(--navy);margin-bottom:6px;letter-spacing:.04em}
 
 footer{max-width:1080px;margin:0 auto;padding:0 16px 32px;font-size:11px;color:var(--dim);text-align:center}
+@media(prefers-color-scheme:dark){html,body{background:#F2F4F7 !important;color:#111827 !important}.surface,.gcard,.lcard,.fx,select{background:#ffffff !important;color:#111827 !important}}
 
 /* ── Mobile ── */
 @media(max-width:600px){
