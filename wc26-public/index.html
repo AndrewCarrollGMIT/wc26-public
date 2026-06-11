@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>World Cup 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #F2F4F7;
+  --surface:  #FFFFFF;
+  --surface2: #F8F9FB;
+  --border:   #E4E7ED;
+  --text:     #111827;
+  --dim:      #6B7280;
+  --navy:     #0F1F3D;
+  --green:    #059669;
+  --amber:    #D97706;
+  --red:      #DC2626;
+  --blue:     #2563EB;
+  --radius:   12px;
+  --shadow:   0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 12px rgba(0,0,0,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.5;min-height:100vh}
+
+/* ── Header ── */
+header{background:var(--navy);position:sticky;top:0;z-index:50}
+.head-inner{max-width:1080px;margin:0 auto;padding:14px 16px 0;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.wordmark{font-family:'Oswald',sans-serif;font-weight:700;font-size:20px;letter-spacing:.08em;color:#fff}
+.wordmark span{color:#F59E0B}
+.stamp{font-size:11px;color:rgba(255,255,255,.5);text-align:right;white-space:nowrap}
+
+nav{max-width:1080px;margin:0 auto;display:flex;padding:0 12px;gap:0}
+.tab{appearance:none;border:none;background:none;color:rgba(255,255,255,.55);font-family:'Inter';font-weight:600;font-size:13px;letter-spacing:.04em;text-transform:uppercase;padding:12px 16px 10px;cursor:pointer;border-bottom:3px solid transparent;transition:color .15s;white-space:nowrap}
+.tab:hover{color:rgba(255,255,255,.85)}
+.tab[aria-selected="true"]{color:#fff;border-bottom-color:#F59E0B}
+.badge{display:inline-block;min-width:18px;margin-left:5px;padding:1px 5px;background:var(--red);color:#fff;border-radius:9px;font-size:10px;font-weight:700;vertical-align:2px}
+
+/* ── TZ strip ── */
+.tz-strip{background:var(--navy);border-top:1px solid rgba(255,255,255,.1)}
+.tz-inner{max-width:1080px;margin:0 auto;padding:6px 16px;display:flex;align-items:center;gap:6px}
+.tz-label{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;margin-right:2px}
+.tz-btn{appearance:none;border:1px solid rgba(255,255,255,.2);background:none;color:rgba(255,255,255,.55);font-family:'Inter';font-weight:600;font-size:11px;padding:3px 10px;border-radius:20px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.tz-btn:hover{color:#fff;border-color:rgba(255,255,255,.5)}
+.tz-btn.active{background:#F59E0B;border-color:#F59E0B;color:#000}
+
+/* ── Layout ── */
+main{max-width:1080px;margin:0 auto;padding:20px 16px 80px}
+.view{display:none}.view.on{display:block}
+
+/* ── Live cards ── */
+.live-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
+.lcard{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow-md);border:2px solid var(--red);overflow:hidden}
+.lcard-top{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 0;font-size:11px;font-weight:600;color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
+.live-pip{display:flex;align-items:center;gap:5px;color:var(--red);font-weight:700}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 1.4s infinite;flex:0 0 auto}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+@media(prefers-reduced-motion:reduce){.pulse{animation:none}}
+.lcard-body{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:14px 14px 18px}
+.lt{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.lt .flag{font-size:2em;line-height:1}
+.lt .name{font-size:13px;font-weight:600;color:var(--text)}
+.bigscore{font-family:'Oswald';font-weight:700;font-size:38px;color:var(--navy);letter-spacing:.02em;text-align:center}
+.lcard-foot{background:var(--surface2);padding:8px 14px;font-size:11px;color:var(--dim);text-align:center;text-transform:uppercase;letter-spacing:.05em;border-top:1px solid var(--border)}
+
+/* ── Fixtures ── */
+.fx-controls{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+select{background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'Inter';font-size:14px;cursor:pointer;box-shadow:var(--shadow)}
+select:focus{outline:2px solid var(--blue);outline-offset:1px}
+.fx-date-hdr{font-size:12px;font-weight:700;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;margin:22px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.fx-date-hdr:first-child{margin-top:0}
+.fx{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;background:var(--surface);border-radius:10px;box-shadow:var(--shadow);padding:12px 14px;margin-bottom:8px;border:1px solid var(--border);transition:border-color .2s}
+.fx.live{border-color:var(--red);box-shadow:0 0 0 2px rgba(220,38,38,.12),var(--shadow)}
+.fside{display:flex;align-items:center;gap:7px;min-width:0}
+.fside.away{justify-content:flex-end;text-align:right}
+.fside .flag{font-size:1.1em;flex:0 0 auto}
+.fside .tn{font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1 1 0;min-width:0}
+.fside .tc{display:none;font-weight:700;font-size:12px;letter-spacing:.05em;color:var(--dim);flex:0 0 auto}
+.fmid{text-align:center;min-width:76px}
+.fmid .score{font-family:'Oswald';font-weight:700;font-size:20px;color:var(--navy);letter-spacing:.04em}
+.fmid .ko{font-weight:700;font-size:15px;color:var(--navy)}
+.fmid .sub{display:block;font-size:10px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;margin-top:1px}
+.fmid .sub.live-sub{color:var(--red);font-weight:700}
+.venue-row{grid-column:1/-1;text-align:center;font-size:10px;color:var(--dim);letter-spacing:.04em;text-transform:uppercase;margin-top:-2px}
+
+/* ── Groups ── */
+.groups-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(310px,1fr))}
+.gcard{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden}
+.gcard-head{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--surface2)}
+.gcard-head h2{font-family:'Oswald';font-size:14px;font-weight:700;letter-spacing:.1em;color:var(--navy);text-transform:uppercase}
+.gcard-head .glet{font-family:'Oswald';font-size:20px;font-weight:700;color:var(--blue);letter-spacing:.02em}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{font-size:10px;font-weight:600;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;padding:7px 4px;text-align:center}
+th.tcol{text-align:left;padding-left:12px}
+td{padding:8px 4px;text-align:center;border-top:1px solid var(--border)}
+td.tcol{text-align:left;padding-left:12px;font-weight:500}
+td.tcol .row{display:flex;align-items:center;gap:7px}
+td.pts{font-family:'Oswald';font-weight:700;font-size:15px;color:var(--navy)}
+tr.q1 td:first-child{box-shadow:inset 3px 0 0 var(--green)}
+tr.q3 td:first-child{box-shadow:inset 3px 0 0 var(--amber)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin:14px 2px 20px;font-size:12px;color:var(--dim)}
+.lkey{display:flex;align-items:center;gap:6px}
+.lkey i{width:10px;height:10px;border-radius:2px}
+.lkey i.g{background:var(--green)}
+.lkey i.y{background:var(--amber)}
+
+/* ── Empty ── */
+.empty{text-align:center;padding:60px 20px;color:var(--dim)}
+.empty h3{font-family:'Oswald';font-size:18px;color:var(--navy);margin-bottom:6px;letter-spacing:.04em}
+
+footer{max-width:1080px;margin:0 auto;padding:0 16px 32px;font-size:11px;color:var(--dim);text-align:center}
+
+/* ── Mobile ── */
+@media(max-width:600px){
+  html,body{overflow-x:hidden;max-width:100vw}
+  main{padding:14px 12px 80px}
+  nav{overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap;padding:0 10px}
+  nav::-webkit-scrollbar{display:none}
+  .tab{font-size:12px;padding:11px 12px 9px;white-space:nowrap}
+  .tz-inner{overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap;gap:5px}
+  .tz-inner::-webkit-scrollbar{display:none}
+  .tz-label{display:none}
+  .groups-grid{grid-template-columns:1fr}
+  .live-grid{grid-template-columns:1fr}
+  table th:nth-child(3),table td:nth-child(3),
+  table th:nth-child(4),table td:nth-child(4),
+  table th:nth-child(5),table td:nth-child(5){display:none}
+  .fside .tn{display:none}
+  .fside .tc{display:inline}
+  .fx{padding:10px 10px;gap:6px}
+  .fmid{min-width:64px}
+  .bigscore{font-size:32px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <div class="wordmark">WORLD CUP <span>2026</span></div>
+    <div class="stamp" id="stamp">JUN 11 – JUL 19</div>
+  </div>
+  <nav role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-view="live">Live<span class="badge" id="liveBadge" style="display:none">0</span></button>
+    <button class="tab" role="tab" aria-selected="false" data-view="fixtures">Fixtures</button>
+    <button class="tab" role="tab" aria-selected="false" data-view="groups">Groups</button>
+  </nav>
+</header>
+<div class="tz-strip">
+  <div class="tz-inner">
+    <span class="tz-label">Time</span>
+    <button class="tz-btn active" data-tz="Australia/Sydney" data-label="SYD">🇦🇺 Sydney</button>
+    <button class="tz-btn" data-tz="Asia/Manila" data-label="MNL">🇵🇭 Manila</button>
+    <button class="tz-btn" data-tz="Europe/Dublin" data-label="IRL">🇮🇪 Ireland</button>
+  </div>
+</div>
+
+<main>
+  <section class="view on" id="view-live">
+    <div class="live-grid" id="liveGrid"></div>
+  </section>
+  <section class="view" id="view-fixtures">
+    <div class="fx-controls">
+      <select id="fxGroup"></select>
+      <select id="fxMatchday">
+        <option value="all">All matchdays</option>
+        <option value="1">Matchday 1</option>
+        <option value="2">Matchday 2</option>
+        <option value="3">Matchday 3</option>
+      </select>
+      <select id="fxStatus">
+        <option value="all">All matches</option>
+        <option value="upcoming">Upcoming</option>
+        <option value="live">Live</option>
+        <option value="finished">Finished</option>
+      </select>
+    </div>
+    <div id="fxList"></div>
+  </section>
+  <section class="view" id="view-groups">
+    <div class="legend">
+      <span class="lkey"><i class="g"></i> Top 2 advance</span>
+      <span class="lkey"><i class="y"></i> Best 3rd place</span>
+    </div>
+    <div class="groups-grid" id="groupsGrid"></div>
+  </section>
+</main>
+
+<footer>All kick-off times shown in selected timezone · Group stage · 72 matches across 16 venues · Data: worldcup26.ir</footer>
+
+<script>
+const DATA = {"teams":[{"id":1,"name":"Mexico","flag":"https://flagcdn.com/w80/mx.png","code":"MEX","iso2":"MX","group":"A"},{"id":2,"name":"South Africa","flag":"https://flagcdn.com/w80/za.png","code":"RSA","iso2":"ZA","group":"A"},{"id":3,"name":"South Korea","flag":"https://flagcdn.com/w80/kr.png","code":"KOR","iso2":"KR","group":"A"},{"id":4,"name":"Czechia","flag":"https://flagcdn.com/w80/cz.png","code":"CZE","iso2":"CZ","group":"A"},{"id":5,"name":"Canada","flag":"https://flagcdn.com/w80/ca.png","code":"CAN","iso2":"CA","group":"B"},{"id":6,"name":"Bosnia and Herzegovina","flag":"https://flagcdn.com/w80/ba.png","code":"BIH","iso2":"BA","group":"B"},{"id":7,"name":"Qatar","flag":"https://flagcdn.com/w80/qa.png","code":"QAT","iso2":"QA","group":"B"},{"id":8,"name":"Switzerland","flag":"https://flagcdn.com/w80/ch.png","code":"SUI","iso2":"CH","group":"B"},{"id":9,"name":"Brazil","flag":"https://flagcdn.com/w80/br.png","code":"BRA","iso2":"BR","group":"C"},{"id":10,"name":"Morocco","flag":"https://flagcdn.com/w80/ma.png","code":"MAR","iso2":"MA","group":"C"},{"id":11,"name":"Haiti","flag":"https://flagcdn.com/w80/ht.png","code":"HAI","iso2":"HT","group":"C"},{"id":12,"name":"Scotland","flag":"https://flagcdn.com/w80/gb-sct.png","code":"SCO","iso2":"SCO","group":"C"},{"id":13,"name":"United States","flag":"https://flagcdn.com/w80/us.png","code":"USA","iso2":"US","group":"D"},{"id":14,"name":"Paraguay","flag":"https://flagcdn.com/w80/py.png","code":"PAR","iso2":"PY","group":"D"},{"id":15,"name":"Australia","flag":"https://flagcdn.com/w80/au.png","code":"AUS","iso2":"AU","group":"D"},{"id":16,"name":"Türkiye","flag":"https://flagcdn.com/w80/tr.png","code":"TUR","iso2":"TR","group":"D"},{"id":17,"name":"Germany","flag":"https://flagcdn.com/w80/de.png","code":"GER","iso2":"DE","group":"E"},{"id":18,"name":"Curaçao","flag":"https://flagcdn.com/w80/cw.png","code":"CUW","iso2":"CW","group":"E"},{"id":19,"name":"Ivory Coast","flag":"https://flagcdn.com/w80/ci.png","code":"CIV","iso2":"CI","group":"E"},{"id":20,"name":"Ecuador","flag":"https://flagcdn.com/w80/ec.png","code":"ECU","iso2":"EC","group":"E"},{"id":21,"name":"Netherlands","flag":"https://flagcdn.com/w80/nl.png","code":"NED","iso2":"NL","group":"F"},{"id":22,"name":"Japan","flag":"https://flagcdn.com/w80/jp.png","code":"JPN","iso2":"JP","group":"F"},{"id":23,"name":"Sweden","flag":"https://flagcdn.com/w80/se.png","code":"SWE","iso2":"SE","group":"F"},{"id":24,"name":"Tunisia","flag":"https://flagcdn.com/w80/tn.png","code":"TUN","iso2":"TN","group":"F"},{"id":25,"name":"Belgium","flag":"https://flagcdn.com/w80/be.png","code":"BEL","iso2":"BE","group":"G"},{"id":26,"name":"Egypt","flag":"https://flagcdn.com/w80/eg.png","code":"EGY","iso2":"EG","group":"G"},{"id":27,"name":"Iran","flag":"https://flagcdn.com/w80/ir.png","code":"IRN","iso2":"IR","group":"G"},{"id":28,"name":"New Zealand","flag":"https://flagcdn.com/w80/nz.png","code":"NZL","iso2":"NZ","group":"G"},{"id":29,"name":"Spain","flag":"https://flagcdn.com/w80/es.png","code":"ESP","iso2":"ES","group":"H"},{"id":30,"name":"Cape Verde","flag":"https://flagcdn.com/w80/cv.png","code":"CPV","iso2":"CV","group":"H"},{"id":31,"name":"Saudi Arabia","flag":"https://flagcdn.com/w80/sa.png","code":"KSA","iso2":"SA","group":"H"},{"id":32,"name":"Uruguay","flag":"https://flagcdn.com/w80/uy.png","code":"URU","iso2":"UY","group":"H"},{"id":33,"name":"France","flag":"https://flagcdn.com/w80/fr.png","code":"FRA","iso2":"FR","group":"I"},{"id":34,"name":"Senegal","flag":"https://flagcdn.com/w80/sn.png","code":"SEN","iso2":"SN","group":"I"},{"id":35,"name":"Iraq","flag":"https://flagcdn.com/w80/iq.png","code":"IRQ","iso2":"IQ","group":"I"},{"id":36,"name":"Norway","flag":"https://flagcdn.com/w80/no.png","code":"NOR","iso2":"NO","group":"I"},{"id":37,"name":"Argentina","flag":"https://flagcdn.com/w80/ar.png","code":"ARG","iso2":"AR","group":"J"},{"id":38,"name":"Algeria","flag":"https://flagcdn.com/w80/dz.png","code":"ALG","iso2":"DZ","group":"J"},{"id":39,"name":"Austria","flag":"https://flagcdn.com/w80/at.png","code":"AUT","iso2":"AT","group":"J"},{"id":40,"name":"Jordan","flag":"https://flagcdn.com/w80/jo.png","code":"JOR","iso2":"JO","group":"J"},{"id":41,"name":"Portugal","flag":"https://flagcdn.com/w80/pt.png","code":"POR","iso2":"PT","group":"K"},{"id":42,"name":"DR Congo","flag":"https://flagcdn.com/w80/cd.png","code":"COD","iso2":"CD","group":"K"},{"id":43,"name":"Uzbekistan","flag":"https://flagcdn.com/w80/uz.png","code":"UZB","iso2":"UZ","group":"K"},{"id":44,"name":"Colombia","flag":"https://flagcdn.com/w80/co.png","code":"COL","iso2":"CO","group":"K"},{"id":45,"name":"England","flag":"https://flagcdn.com/w80/gb-eng.png","code":"ENG","iso2":"ENG","group":"L"},{"id":46,"name":"Croatia","flag":"https://flagcdn.com/w80/hr.png","code":"CRO","iso2":"HR","group":"L"},{"id":47,"name":"Ghana","flag":"https://flagcdn.com/w80/gh.png","code":"GHA","iso2":"GH","group":"L"},{"id":48,"name":"Panama","flag":"https://flagcdn.com/w80/pa.png","code":"PAN","iso2":"PA","group":"L"}],"stadia":[{"id":1,"name":"Estadio Azteca","city":"Mexico City","country":"Mexico","capacity":83000},{"id":2,"name":"Estadio Akron","city":"Guadalajara (Zapopan)","country":"Mexico","capacity":48000},{"id":3,"name":"Estadio BBVA","city":"Monterrey (Guadalupe)","country":"Mexico","capacity":53500},{"id":4,"name":"AT&T Stadium","city":"Dallas (Arlington, Texas)","country":"United States","capacity":94000},{"id":5,"name":"NRG Stadium","city":"Houston","country":"United States","capacity":72000},{"id":6,"name":"GEHA Field at Arrowhead Stadium","city":"Kansas City","country":"United States","capacity":73000},{"id":7,"name":"Mercedes-Benz Stadium","city":"Atlanta","country":"United States","capacity":75000},{"id":8,"name":"Hard Rock Stadium","city":"Miami (Miami Gardens)","country":"United States","capacity":65000},{"id":9,"name":"Gillette Stadium","city":"Boston (Foxborough)","country":"United States","capacity":65000},{"id":10,"name":"Lincoln Financial Field","city":"Philadelphia","country":"United States","capacity":69000},{"id":11,"name":"MetLife Stadium","city":"New York/New Jersey (East Rutherford)","country":"United States","capacity":82500},{"id":12,"name":"BMO Field","city":"Toronto","country":"Canada","capacity":45000},{"id":13,"name":"BC Place","city":"Vancouver","country":"Canada","capacity":54000},{"id":14,"name":"Lumen Field","city":"Seattle","country":"United States","capacity":69000},{"id":15,"name":"Levi's Stadium","city":"San Francisco Bay Area (Santa Clara)","country":"United States","capacity":71000},{"id":16,"name":"SoFi Stadium","city":"Los Angeles (Inglewood)","country":"United States","capacity":70000}],"games":[{"id":1,"home":1,"away":2,"home_score":0,"away_score":0,"group":"A","matchday":1,"date_iso":"2026-06-11T19:00:00.000Z","local_date":"06/11/2026 13:00","stadium_id":1,"finished":false,"status":"notstarted"},{"id":2,"home":3,"away":4,"home_score":0,"away_score":0,"group":"A","matchday":1,"date_iso":"2026-06-12T02:00:00.000Z","local_date":"06/11/2026 20:00","stadium_id":2,"finished":false,"status":"notstarted"},{"id":3,"home":5,"away":6,"home_score":0,"away_score":0,"group":"B","matchday":1,"date_iso":"2026-06-12T21:00:00.000Z","local_date":"06/12/2026 15:00","stadium_id":3,"finished":false,"status":"notstarted"},{"id":4,"home":13,"away":14,"home_score":0,"away_score":0,"group":"D","matchday":1,"date_iso":"2026-06-12T23:00:00.000Z","local_date":"06/12/2026 18:00","stadium_id":4,"finished":false,"status":"notstarted"},{"id":5,"home":11,"away":12,"home_score":0,"away_score":0,"group":"C","matchday":1,"date_iso":"2026-06-14T02:00:00.000Z","local_date":"06/13/2026 21:00","stadium_id":5,"finished":false,"status":"notstarted"},{"id":6,"home":15,"away":16,"home_score":0,"away_score":0,"group":"D","matchday":1,"date_iso":"2026-06-13T17:00:00.000Z","local_date":"06/13/2026 12:00","stadium_id":6,"finished":false,"status":"notstarted"},{"id":7,"home":9,"away":10,"home_score":0,"away_score":0,"group":"C","matchday":1,"date_iso":"2026-06-13T22:00:00.000Z","local_date":"06/13/2026 18:00","stadium_id":7,"finished":false,"status":"notstarted"},{"id":8,"home":7,"away":8,"home_score":0,"away_score":0,"group":"B","matchday":1,"date_iso":"2026-06-13T16:00:00.000Z","local_date":"06/13/2026 12:00","stadium_id":8,"finished":false,"status":"notstarted"},{"id":9,"home":19,"away":20,"home_score":0,"away_score":0,"group":"E","matchday":1,"date_iso":"2026-06-14T22:00:00.000Z","local_date":"06/14/2026 18:00","stadium_id":9,"finished":false,"status":"notstarted"},{"id":10,"home":17,"away":18,"home_score":0,"away_score":0,"group":"E","matchday":1,"date_iso":"2026-06-14T16:00:00.000Z","local_date":"06/14/2026 12:00","stadium_id":10,"finished":false,"status":"notstarted"},{"id":11,"home":21,"away":22,"home_score":0,"away_score":0,"group":"F","matchday":1,"date_iso":"2026-06-14T19:00:00.000Z","local_date":"06/14/2026 15:00","stadium_id":11,"finished":false,"status":"notstarted"},{"id":12,"home":23,"away":24,"home_score":0,"away_score":0,"group":"F","matchday":1,"date_iso":"2026-06-15T01:00:00.000Z","local_date":"06/14/2026 21:00","stadium_id":12,"finished":false,"status":"notstarted"},{"id":13,"home":27,"away":28,"home_score":0,"away_score":0,"group":"G","matchday":1,"date_iso":"2026-06-16T01:00:00.000Z","local_date":"06/15/2026 18:00","stadium_id":13,"finished":false,"status":"notstarted"},{"id":14,"home":29,"away":30,"home_score":0,"away_score":0,"group":"H","matchday":1,"date_iso":"2026-06-15T19:00:00.000Z","local_date":"06/15/2026 12:00","stadium_id":14,"finished":false,"status":"notstarted"},{"id":15,"home":25,"away":26,"home_score":0,"away_score":0,"group":"G","matchday":1,"date_iso":"2026-06-15T22:00:00.000Z","local_date":"06/15/2026 15:00","stadium_id":15,"finished":false,"status":"notstarted"},{"id":16,"home":31,"away":32,"home_score":0,"away_score":0,"group":"H","matchday":1,"date_iso":"2026-06-16T04:00:00.000Z","local_date":"06/15/2026 21:00","stadium_id":16,"finished":false,"status":"notstarted"},{"id":17,"home":33,"away":34,"home_score":0,"away_score":0,"group":"I","matchday":1,"date_iso":"2026-06-16T21:00:00.000Z","local_date":"06/16/2026 15:00","stadium_id":1,"finished":false,"status":"notstarted"},{"id":18,"home":35,"away":36,"home_score":0,"away_score":0,"group":"I","matchday":1,"date_iso":"2026-06-17T00:00:00.000Z","local_date":"06/16/2026 18:00","stadium_id":2,"finished":false,"status":"notstarted"},{"id":19,"home":37,"away":38,"home_score":0,"away_score":0,"group":"J","matchday":1,"date_iso":"2026-06-17T02:00:00.000Z","local_date":"06/16/2026 20:00","stadium_id":3,"finished":false,"status":"notstarted"},{"id":20,"home":39,"away":40,"home_score":0,"away_score":0,"group":"J","matchday":1,"date_iso":"2026-06-16T17:00:00.000Z","local_date":"06/16/2026 12:00","stadium_id":4,"finished":false,"status":"notstarted"},{"id":21,"home":41,"away":42,"home_score":0,"away_score":0,"group":"K","matchday":1,"date_iso":"2026-06-17T17:00:00.000Z","local_date":"06/17/2026 12:00","stadium_id":5,"finished":false,"status":"notstarted"},{"id":22,"home":45,"away":46,"home_score":0,"away_score":0,"group":"L","matchday":1,"date_iso":"2026-06-17T20:00:00.000Z","local_date":"06/17/2026 15:00","stadium_id":6,"finished":false,"status":"notstarted"},{"id":23,"home":43,"away":44,"home_score":0,"away_score":0,"group":"K","matchday":1,"date_iso":"2026-06-17T22:00:00.000Z","local_date":"06/17/2026 18:00","stadium_id":7,"finished":false,"status":"notstarted"},{"id":24,"home":47,"away":48,"home_score":0,"away_score":0,"group":"L","matchday":1,"date_iso":"2026-06-18T01:00:00.000Z","local_date":"06/17/2026 21:00","stadium_id":8,"finished":false,"status":"notstarted"},{"id":25,"home":1,"away":3,"home_score":0,"away_score":0,"group":"A","matchday":2,"date_iso":"2026-06-18T17:00:00.000Z","local_date":"06/18/2026 13:00","stadium_id":9,"finished":false,"status":"notstarted"},{"id":26,"home":8,"away":6,"home_score":0,"away_score":0,"group":"B","matchday":2,"date_iso":"2026-06-18T16:00:00.000Z","local_date":"06/18/2026 12:00","stadium_id":10,"finished":false,"status":"notstarted"},{"id":27,"home":5,"away":7,"home_score":0,"away_score":0,"group":"B","matchday":2,"date_iso":"2026-06-18T19:00:00.000Z","local_date":"06/18/2026 15:00","stadium_id":11,"finished":false,"status":"notstarted"},{"id":28,"home":4,"away":2,"home_score":0,"away_score":0,"group":"A","matchday":2,"date_iso":"2026-06-18T22:00:00.000Z","local_date":"06/18/2026 18:00","stadium_id":12,"finished":false,"status":"notstarted"},{"id":29,"home":9,"away":11,"home_score":0,"away_score":0,"group":"C","matchday":2,"date_iso":"2026-06-20T04:00:00.000Z","local_date":"06/19/2026 21:00","stadium_id":13,"finished":false,"status":"notstarted"},{"id":30,"home":12,"away":10,"home_score":0,"away_score":0,"group":"C","matchday":2,"date_iso":"2026-06-20T01:00:00.000Z","local_date":"06/19/2026 18:00","stadium_id":14,"finished":false,"status":"notstarted"},{"id":31,"home":13,"away":15,"home_score":0,"away_score":0,"group":"D","matchday":2,"date_iso":"2026-06-19T19:00:00.000Z","local_date":"06/19/2026 12:00","stadium_id":15,"finished":false,"status":"notstarted"},{"id":32,"home":16,"away":14,"home_score":0,"away_score":0,"group":"D","matchday":2,"date_iso":"2026-06-19T22:00:00.000Z","local_date":"06/19/2026 15:00","stadium_id":16,"finished":false,"status":"notstarted"},{"id":33,"home":17,"away":19,"home_score":0,"away_score":0,"group":"E","matchday":2,"date_iso":"2026-06-21T01:00:00.000Z","local_date":"06/20/2026 19:00","stadium_id":1,"finished":false,"status":"notstarted"},{"id":34,"home":20,"away":18,"home_score":0,"away_score":0,"group":"E","matchday":2,"date_iso":"2026-06-21T01:00:00.000Z","local_date":"06/20/2026 19:00","stadium_id":2,"finished":false,"status":"notstarted"},{"id":35,"home":21,"away":23,"home_score":0,"away_score":0,"group":"F","matchday":2,"date_iso":"2026-06-20T18:00:00.000Z","local_date":"06/20/2026 12:00","stadium_id":3,"finished":false,"status":"notstarted"},{"id":36,"home":24,"away":22,"home_score":0,"away_score":0,"group":"F","matchday":2,"date_iso":"2026-06-20T20:00:00.000Z","local_date":"06/20/2026 15:00","stadium_id":4,"finished":false,"status":"notstarted"},{"id":37,"home":25,"away":27,"home_score":0,"away_score":0,"group":"G","matchday":2,"date_iso":"2026-06-21T20:00:00.000Z","local_date":"06/21/2026 15:00","stadium_id":5,"finished":false,"status":"notstarted"},{"id":38,"home":28,"away":26,"home_score":0,"away_score":0,"group":"G","matchday":2,"date_iso":"2026-06-21T17:00:00.000Z","local_date":"06/21/2026 12:00","stadium_id":6,"finished":false,"status":"notstarted"},{"id":39,"home":29,"away":31,"home_score":0,"away_score":0,"group":"H","matchday":2,"date_iso":"2026-06-21T22:00:00.000Z","local_date":"06/21/2026 18:00","stadium_id":7,"finished":false,"status":"notstarted"},{"id":40,"home":32,"away":30,"home_score":0,"away_score":0,"group":"H","matchday":2,"date_iso":"2026-06-22T01:00:00.000Z","local_date":"06/21/2026 21:00","stadium_id":8,"finished":false,"status":"notstarted"},{"id":41,"home":33,"away":35,"home_score":0,"away_score":0,"group":"I","matchday":2,"date_iso":"2026-06-22T21:00:00.000Z","local_date":"06/22/2026 17:00","stadium_id":9,"finished":false,"status":"notstarted"},{"id":42,"home":36,"away":34,"home_score":0,"away_score":0,"group":"I","matchday":2,"date_iso":"2026-06-22T18:00:00.000Z","local_date":"06/22/2026 14:00","stadium_id":10,"finished":false,"status":"notstarted"},{"id":43,"home":37,"away":39,"home_score":0,"away_score":0,"group":"J","matchday":2,"date_iso":"2026-06-23T00:00:00.000Z","local_date":"06/22/2026 20:00","stadium_id":11,"finished":false,"status":"notstarted"},{"id":44,"home":40,"away":38,"home_score":0,"away_score":0,"group":"J","matchday":2,"date_iso":"2026-06-22T15:00:00.000Z","local_date":"06/22/2026 11:00","stadium_id":12,"finished":false,"status":"notstarted"},{"id":45,"home":41,"away":43,"home_score":0,"away_score":0,"group":"K","matchday":2,"date_iso":"2026-06-23T22:00:00.000Z","local_date":"06/23/2026 15:00","stadium_id":13,"finished":false,"status":"notstarted"},{"id":46,"home":48,"away":46,"home_score":0,"away_score":0,"group":"L","matchday":2,"date_iso":"2026-06-24T02:00:00.000Z","local_date":"06/23/2026 19:00","stadium_id":14,"finished":false,"status":"notstarted"},{"id":47,"home":44,"away":42,"home_score":0,"away_score":0,"group":"K","matchday":2,"date_iso":"2026-06-23T19:00:00.000Z","local_date":"06/23/2026 12:00","stadium_id":15,"finished":false,"status":"notstarted"},{"id":48,"home":45,"away":47,"home_score":0,"away_score":0,"group":"L","matchday":2,"date_iso":"2026-06-24T04:00:00.000Z","local_date":"06/23/2026 21:00","stadium_id":16,"finished":false,"status":"notstarted"},{"id":49,"home":12,"away":9,"home_score":0,"away_score":0,"group":"C","matchday":3,"date_iso":"2026-06-25T00:00:00.000Z","local_date":"06/24/2026 18:00","stadium_id":1,"finished":false,"status":"notstarted"},{"id":50,"home":10,"away":11,"home_score":0,"away_score":0,"group":"C","matchday":3,"date_iso":"2026-06-25T00:00:00.000Z","local_date":"06/24/2026 18:00","stadium_id":2,"finished":false,"status":"notstarted"},{"id":51,"home":2,"away":3,"home_score":0,"away_score":0,"group":"A","matchday":3,"date_iso":"2026-06-25T01:00:00.000Z","local_date":"06/24/2026 19:00","stadium_id":3,"finished":false,"status":"notstarted"},{"id":52,"home":4,"away":1,"home_score":0,"away_score":0,"group":"A","matchday":3,"date_iso":"2026-06-25T00:00:00.000Z","local_date":"06/24/2026 19:00","stadium_id":4,"finished":false,"status":"notstarted"},{"id":53,"home":6,"away":5,"home_score":0,"away_score":0,"group":"B","matchday":3,"date_iso":"2026-06-25T23:00:00.000Z","local_date":"06/25/2026 18:00","stadium_id":5,"finished":false,"status":"notstarted"},{"id":54,"home":7,"away":8,"home_score":0,"away_score":0,"group":"B","matchday":3,"date_iso":"2026-06-25T23:00:00.000Z","local_date":"06/25/2026 18:00","stadium_id":6,"finished":false,"status":"notstarted"},{"id":55,"home":18,"away":19,"home_score":0,"away_score":0,"group":"E","matchday":3,"date_iso":"2026-06-25T20:00:00.000Z","local_date":"06/25/2026 16:00","stadium_id":7,"finished":false,"status":"notstarted"},{"id":56,"home":20,"away":17,"home_score":0,"away_score":0,"group":"E","matchday":3,"date_iso":"2026-06-25T20:00:00.000Z","local_date":"06/25/2026 16:00","stadium_id":8,"finished":false,"status":"notstarted"},{"id":57,"home":14,"away":15,"home_score":0,"away_score":0,"group":"D","matchday":3,"date_iso":"2026-06-25T23:00:00.000Z","local_date":"06/25/2026 19:00","stadium_id":9,"finished":false,"status":"notstarted"},{"id":58,"home":16,"away":13,"home_score":0,"away_score":0,"group":"D","matchday":3,"date_iso":"2026-06-25T23:00:00.000Z","local_date":"06/25/2026 19:00","stadium_id":10,"finished":false,"status":"notstarted"},{"id":59,"home":22,"away":23,"home_score":0,"away_score":0,"group":"F","matchday":3,"date_iso":"2026-06-26T22:00:00.000Z","local_date":"06/26/2026 18:00","stadium_id":11,"finished":false,"status":"notstarted"},{"id":60,"home":24,"away":21,"home_score":0,"away_score":0,"group":"F","matchday":3,"date_iso":"2026-06-26T22:00:00.000Z","local_date":"06/26/2026 18:00","stadium_id":12,"finished":false,"status":"notstarted"},{"id":61,"home":34,"away":35,"home_score":0,"away_score":0,"group":"I","matchday":3,"date_iso":"2026-06-26T22:00:00.000Z","local_date":"06/26/2026 15:00","stadium_id":13,"finished":false,"status":"notstarted"},{"id":62,"home":36,"away":33,"home_score":0,"away_score":0,"group":"I","matchday":3,"date_iso":"2026-06-26T22:00:00.000Z","local_date":"06/26/2026 15:00","stadium_id":14,"finished":false,"status":"notstarted"},{"id":63,"home":26,"away":27,"home_score":0,"away_score":0,"group":"G","matchday":3,"date_iso":"2026-06-27T03:00:00.000Z","local_date":"06/26/2026 20:00","stadium_id":15,"finished":false,"status":"notstarted"},{"id":64,"home":28,"away":25,"home_score":0,"away_score":0,"group":"G","matchday":3,"date_iso":"2026-06-27T03:00:00.000Z","local_date":"06/26/2026 20:00","stadium_id":16,"finished":false,"status":"notstarted"},{"id":65,"home":30,"away":31,"home_score":0,"away_score":0,"group":"H","matchday":3,"date_iso":"2026-06-27T23:00:00.000Z","local_date":"06/27/2026 17:00","stadium_id":1,"finished":false,"status":"notstarted"},{"id":66,"home":32,"away":29,"home_score":0,"away_score":0,"group":"H","matchday":3,"date_iso":"2026-06-27T23:00:00.000Z","local_date":"06/27/2026 17:00","stadium_id":2,"finished":false,"status":"notstarted"},{"id":67,"home":48,"away":45,"home_score":0,"away_score":0,"group":"L","matchday":3,"date_iso":"2026-06-27T23:00:00.000Z","local_date":"06/27/2026 17:00","stadium_id":3,"finished":false,"status":"notstarted"},{"id":68,"home":46,"away":47,"home_score":0,"away_score":0,"group":"L","matchday":3,"date_iso":"2026-06-27T22:00:00.000Z","local_date":"06/27/2026 17:00","stadium_id":4,"finished":false,"status":"notstarted"},{"id":69,"home":38,"away":39,"home_score":0,"away_score":0,"group":"J","matchday":3,"date_iso":"2026-06-28T01:00:00.000Z","local_date":"06/27/2026 20:00","stadium_id":5,"finished":false,"status":"notstarted"},{"id":70,"home":40,"away":37,"home_score":0,"away_score":0,"group":"J","matchday":3,"date_iso":"2026-06-28T01:00:00.000Z","local_date":"06/27/2026 20:00","stadium_id":6,"finished":false,"status":"notstarted"},{"id":71,"home":44,"away":41,"home_score":0,"away_score":0,"group":"K","matchday":3,"date_iso":"2026-06-27T23:30:00.000Z","local_date":"06/27/2026 19:30","stadium_id":7,"finished":false,"status":"notstarted"},{"id":72,"home":42,"away":43,"home_score":0,"away_score":0,"group":"K","matchday":3,"date_iso":"2026-06-27T23:30:00.000Z","local_date":"06/27/2026 19:30","stadium_id":8,"finished":false,"status":"notstarted"}],"groups":{"A":[1,2,3,4],"B":[5,6,7,8],"C":[9,10,11,12],"D":[13,14,15,16],"E":[17,18,19,20],"F":[21,22,23,24],"G":[25,26,27,28],"H":[29,30,31,32],"I":[33,34,35,36],"J":[37,38,39,40],"K":[41,42,43,44],"L":[45,46,47,48]}};
+
+const teamById = Object.fromEntries(DATA.teams.map(t => [t.id, t]));
+const stadiumById = Object.fromEntries(DATA.stadia.map(s => [s.id, s]));
+
+function isoToEmoji(iso2) {
+  if (!iso2) return "🏳";
+  const s = iso2.toUpperCase();
+  const L = {"ENG":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","SCO":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","WAL":"🏴󠁧󠁢󠁷󠁬󠁳󠁿","GB-ENG":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","GB-SCT":"🏴󠁧󠁢󠁳󠁣󠁴󠁿"};
+  if (L[s]) return L[s];
+  if (s.length === 2) return [...s].map(c => String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65)).join("");
+  return "🏳";
+}
+
+const $ = s => document.querySelector(s);
+const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+let TZ = "Australia/Sydney";
+let fmtDay  = new Intl.DateTimeFormat("en-AU", {timeZone:TZ, weekday:"long", day:"numeric", month:"long"});
+let fmtTime = new Intl.DateTimeFormat("en-AU", {timeZone:TZ, hour:"2-digit", minute:"2-digit", hour12:false});
+
+function setTZ(tz) {
+  TZ = tz;
+  fmtDay  = new Intl.DateTimeFormat("en-AU", {timeZone:TZ, weekday:"long", day:"numeric", month:"long"});
+  fmtTime = new Intl.DateTimeFormat("en-AU", {timeZone:TZ, hour:"2-digit", minute:"2-digit", hour12:false});
+}
+
+document.querySelectorAll(".tz-btn").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".tz-btn").forEach(x => x.classList.remove("active"));
+  b.classList.add("active");
+  setTZ(b.dataset.tz);
+  renderFixtures();
+}));
+
+document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => {
+  document.querySelectorAll(".tab").forEach(x => x.setAttribute("aria-selected", x === t));
+  document.querySelectorAll(".view").forEach(v => v.classList.toggle("on", v.id === "view-" + t.dataset.view));
+}));
+
+function fxStatus(m) {
+  if (m.finished || m.status === "finished") return "finished";
+  if (m.status === "live") return "live";
+  const ko = new Date(m.date_iso), now = new Date();
+  if (now > ko && now - ko < 120*60*1000) return "live";
+  return "upcoming";
+}
+
+function computeStandings() {
+  const init = id => ({ team:teamById[id], played:0, w:0, d:0, l:0, gf:0, ga:0, pts:0 });
+  const grps = {};
+  for (const g of Object.keys(DATA.groups)) grps[g] = DATA.groups[g].map(init);
+  for (const m of DATA.games) {
+    if (!m.finished) continue;
+    const grp = grps[m.group];
+    const h = grp.find(r => r.team.id === m.home);
+    const a = grp.find(r => r.team.id === m.away);
+    if (!h || !a) continue;
+    h.played++; a.played++;
+    h.gf += m.home_score; h.ga += m.away_score;
+    a.gf += m.away_score; a.ga += m.home_score;
+    if (m.home_score > m.away_score) { h.w++; h.pts+=3; a.l++; }
+    else if (m.home_score < m.away_score) { a.w++; a.pts+=3; h.l++; }
+    else { h.d++; a.d++; h.pts++; a.pts++; }
+  }
+  for (const g of Object.keys(grps)) {
+    grps[g].forEach(r => r.gd = r.gf - r.ga);
+    grps[g].sort((a,b) => b.pts-a.pts || b.gd-a.gd || b.gf-a.gf || a.team.name.localeCompare(b.team.name));
+  }
+  return grps;
+}
+
+function renderLive() {
+  const live = DATA.games.filter(m => fxStatus(m) === "live");
+  const grid = $("#liveGrid"); grid.innerHTML = "";
+  const badge = $("#liveBadge");
+  badge.style.display = live.length ? "inline-block" : "none";
+  badge.textContent = live.length;
+
+  if (!live.length) {
+    const next = DATA.games.filter(m => fxStatus(m) === "upcoming").sort((a,b) => new Date(a.date_iso)-new Date(b.date_iso))[0];
+    const msg = next
+      ? `Next match: ${teamById[next.home].name} vs ${teamById[next.away].name} · ${fmtTime.format(new Date(next.date_iso))}`
+      : "Group stage complete";
+    grid.append(el("div","empty",`<h3>No matches live right now</h3><p>${esc(msg)}</p>`));
+    return;
+  }
+
+  live.forEach(m => {
+    const h = teamById[m.home], a = teamById[m.away];
+    const st = stadiumById[m.stadium_id];
+    const card = el("div","lcard");
+    const minLabel = m.status === "HT" ? "Half Time" : "LIVE";
+    card.innerHTML = `
+      <div class="lcard-top">
+        <span>Group ${esc(m.group)} · MD${m.matchday}</span>
+        <span class="live-pip"><span class="pulse"></span>${esc(minLabel)}</span>
+      </div>
+      <div class="lcard-body">
+        <div class="lt"><span class="flag">${isoToEmoji(h.iso2)}</span><span class="name">${esc(h.name)}</span></div>
+        <div class="bigscore">${m.home_score ?? 0}–${m.away_score ?? 0}</div>
+        <div class="lt"><span class="flag">${isoToEmoji(a.iso2)}</span><span class="name">${esc(a.name)}</span></div>
+      </div>
+      <div class="lcard-foot">${st ? esc(st.name) + " · " + esc(st.city) : ""}</div>`;
+    grid.append(card);
+  });
+}
+
+function renderFixtures() {
+  const wG = $("#fxGroup").value, wM = $("#fxMatchday").value, wS = $("#fxStatus").value;
+  const list = $("#fxList"); list.innerHTML = "";
+  const fx = DATA.games
+    .filter(m => wG === "all" || m.group === wG)
+    .filter(m => wM === "all" || String(m.matchday) === wM)
+    .filter(m => wS === "all" || fxStatus(m) === wS)
+    .sort((a,b) => new Date(a.date_iso) - new Date(b.date_iso));
+
+  if (!fx.length) { list.append(el("div","empty","<h3>No matches</h3><p>Try a different filter</p>")); return; }
+
+  let lastDay = "";
+  fx.forEach(m => {
+    const d = new Date(m.date_iso);
+    const day = fmtDay.format(d);
+    if (day !== lastDay) { list.append(el("div","fx-date-hdr",esc(day))); lastDay = day; }
+    const st = fxStatus(m), h = teamById[m.home], a = teamById[m.away], stad = stadiumById[m.stadium_id];
+    const row = el("div","fx" + (st === "live" ? " live" : ""));
+    const mid = st === "upcoming"
+      ? `<span class="ko">${fmtTime.format(d)}</span><span class="sub">Grp ${esc(m.group)}</span>`
+      : `<span class="score">${m.home_score ?? 0}–${m.away_score ?? 0}</span><span class="sub${st === "live" ? " live-sub" : ""}">${st === "live" ? "LIVE" : "FT"}</span>`;
+    row.innerHTML = `
+      <div class="fside"><span class="flag">${isoToEmoji(h.iso2)}</span><span class="tn">${esc(h.name)}</span><span class="tc">${esc(h.code)}</span></div>
+      <div class="fmid">${mid}</div>
+      <div class="fside away"><span class="tn">${esc(a.name)}</span><span class="tc">${esc(a.code)}</span><span class="flag">${isoToEmoji(a.iso2)}</span></div>`;
+    if (stad) { const v = el("div","venue-row"); v.textContent = stad.name + " · " + stad.city; row.append(v); }
+    list.append(row);
+  });
+}
+
+function renderGroups() {
+  const standings = computeStandings();
+  const grid = $("#groupsGrid"); grid.innerHTML = "";
+  for (const g of Object.keys(standings).sort()) {
+    const card = el("div","gcard");
+    card.innerHTML = `<div class="gcard-head"><h2>Group</h2><span class="glet">${esc(g)}</span></div>`;
+    const tbl = el("table");
+    tbl.innerHTML = `<thead><tr><th class="tcol">Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th class="pts">Pts</th></tr></thead>`;
+    const tb = el("tbody");
+    standings[g].forEach((row, i) => {
+      const rank = i+1;
+      const tr = el("tr", rank <= 2 ? "q1" : rank === 3 ? "q3" : "");
+      tr.innerHTML = `
+        <td class="tcol"><div class="row"><span>${isoToEmoji(row.team.iso2)}</span>${esc(row.team.name)}</div></td>
+        <td>${row.played}</td><td>${row.w}</td><td>${row.d}</td><td>${row.l}</td>
+        <td>${row.gd > 0 ? "+" : ""}${row.gd}</td><td class="pts">${row.pts}</td>`;
+      tb.append(tr);
+    });
+    tbl.append(tb); card.append(tbl); grid.append(card);
+  }
+}
+
+function populateGroupFilter() {
+  const sel = $("#fxGroup");
+  sel.innerHTML = `<option value="all">All groups</option>` +
+    Object.keys(DATA.groups).sort().map(g => `<option value="${g}">Group ${g}</option>`).join("");
+}
+["fxGroup","fxMatchday","fxStatus"].forEach(id => $("#"+id).addEventListener("change", renderFixtures));
+
+populateGroupFilter(); renderLive(); renderFixtures(); renderGroups();
+
+/* Live polling */
+const POLL_LIVE = 60_000, POLL_IDLE = 10*60_000;
+const LIVE_ST = new Set(["1H","HT","2H","ET","BT","P","LIVE","INT"]);
+const DONE_ST = new Set(["FT","AET","PEN"]);
+
+function matchGame(r) {
+  if (r.gameId) return DATA.games.find(g => g.id === r.gameId) || null;
+  return null;
+}
+
+function applyRemote(j) {
+  if (!j.fixtures) return false;
+  let changed = false;
+  for (const r of j.fixtures) {
+    const local = matchGame(r);
+    if (!local) continue;
+    const scoreChanged = local.home_score !== (r.home_score ?? 0) || local.away_score !== (r.away_score ?? 0);
+    const statusChanged = (LIVE_ST.has(r.status) && local.status !== "live") || (DONE_ST.has(r.status) && !local.finished);
+    if (scoreChanged || statusChanged) changed = true;
+    if (r.home_score != null) local.home_score = r.home_score;
+    if (r.away_score != null) local.away_score = r.away_score;
+    if (LIVE_ST.has(r.status)) { local.status = "live"; local.finished = false; }
+    else if (DONE_ST.has(r.status) || r.finished) { local.status = "finished"; local.finished = true; }
+  }
+  return changed;
+}
+
+function anyLive() {
+  const now = Date.now();
+  return DATA.games.some(g => { const ko = new Date(g.date_iso).getTime(); return now >= ko && now <= ko + 9e6 && !g.finished; });
+}
+
+async function poll() {
+  try {
+    const r = await fetch("/api/fixtures", { cache: "no-store" });
+    if (!r.ok) return;
+    const j = await r.json();
+    if (applyRemote(j)) { renderLive(); renderFixtures(); renderGroups(); }
+    const tzBtn = document.querySelector(".tz-btn.active");
+    $("#stamp").textContent = "Updated " + new Date().toLocaleTimeString("en-AU", {timeZone:TZ, hour:"2-digit", minute:"2-digit", hour12:false}) + " · " + (tzBtn?.dataset.label || "SYD");
+  } catch(e) { console.warn("Poll failed:", e.message); }
+}
+
+function schedule() { setTimeout(async () => { await poll(); schedule(); }, anyLive() ? POLL_LIVE : POLL_IDLE); }
+poll().then(schedule);
+</script>
+</body>
+</html>
