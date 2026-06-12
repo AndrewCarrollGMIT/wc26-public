@@ -6,125 +6,222 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>World Cup 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
   color-scheme: light only;
-  --bg:       #F2F4F7;
-  --surface:  #FFFFFF;
-  --surface2: #F8F9FB;
-  --border:   #E4E7ED;
-  --text:     #111827;
-  --dim:      #6B7280;
-  --navy:     #0F1F3D;
-  --green:    #059669;
-  --amber:    #D97706;
-  --red:      #DC2626;
-  --blue:     #2563EB;
-  --radius:   12px;
-  --shadow:   0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
-  --shadow-md:0 4px 12px rgba(0,0,0,.08);
+  --ink:    #101A3E;   /* US navy - text, header */
+  --ink-2:  #1B2A5E;   /* lighter navy - tz strip */
+  --red:    #D7263D;   /* Canada red - live */
+  --green:  #00794C;   /* Mexico green - qualification */
+  --royal:  #2B4C9B;   /* US royal - 3rd place, links */
+  --paper:  #F6F5F1;   /* warm concrete white */
+  --card:   #FFFFFF;
+  --line:   #E5E3DC;
+  --dim:    #6E7385;
+  --r: 10px;
+  --shadow: 0 1px 2px rgba(16,26,62,.06), 0 4px 16px rgba(16,26,62,.05);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.5;min-height:100vh}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:'Archivo',system-ui,sans-serif;font-size:15px;line-height:1.5;
+  min-height:100vh;
+}
+
+/* ══ The tricolor band - the one mark that means "26" ══ */
+.band, header::before{
+  content:"";display:block;height:4px;
+  background:linear-gradient(90deg,
+    var(--red) 0 33.33%, var(--green) 33.33% 66.66%, var(--royal) 66.66% 100%);
+}
 
 /* ── Header ── */
-header{background:var(--navy);position:sticky;top:0;z-index:50}
-.head-inner{max-width:1080px;margin:0 auto;padding:14px 16px 0;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.wordmark{font-family:'Oswald',sans-serif;font-weight:700;font-size:20px;letter-spacing:.08em;color:#fff}
-.wordmark span{color:#F59E0B}
-.stamp{font-size:11px;color:rgba(255,255,255,.5);text-align:right;white-space:nowrap}
+header{background:var(--ink);position:sticky;top:0;z-index:50}
+.head-inner{
+  max-width:1060px;margin:0 auto;padding:18px 18px 4px;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:14px;
+}
+.eyebrow{
+  font-size:10px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);margin-bottom:4px;
+}
+.wordmark{
+  font-family:'Anton',sans-serif;font-size:30px;line-height:1;
+  color:#fff;letter-spacing:.025em;text-transform:uppercase;
+  display:flex;align-items:center;gap:9px;
+}
+.two6{
+  display:inline-block;background:var(--red);color:#fff;
+  padding:2px 9px 3px;transform:skewX(-8deg);
+  font-family:'Anton',sans-serif;
+}
+.two6 > span{display:inline-block;transform:skewX(8deg)}
+.stamp{
+  font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);text-align:right;white-space:nowrap;padding-bottom:5px;
+}
 
-nav{max-width:1080px;margin:0 auto;display:flex;padding:0 12px;gap:0}
-.tab{appearance:none;border:none;background:none;color:rgba(255,255,255,.55);font-family:'Inter';font-weight:600;font-size:13px;letter-spacing:.04em;text-transform:uppercase;padding:12px 16px 10px;cursor:pointer;border-bottom:3px solid transparent;transition:color .15s;white-space:nowrap}
+nav{max-width:1060px;margin:0 auto;display:flex;padding:6px 8px 0;gap:2px}
+.tab{
+  appearance:none;border:none;background:none;cursor:pointer;
+  color:rgba(255,255,255,.55);font-family:'Archivo';font-weight:700;
+  font-size:13px;letter-spacing:.09em;text-transform:uppercase;
+  padding:11px 15px 12px;position:relative;transition:color .15s;white-space:nowrap;
+}
 .tab:hover{color:rgba(255,255,255,.85)}
-.tab[aria-selected="true"]{color:#fff;border-bottom-color:#F59E0B}
-.badge{display:inline-block;min-width:18px;margin-left:5px;padding:1px 5px;background:var(--red);color:#fff;border-radius:9px;font-size:10px;font-weight:700;vertical-align:2px}
+.tab[aria-selected="true"]{color:#fff}
+.tab[aria-selected="true"]::after{
+  content:"";position:absolute;left:13px;right:13px;bottom:0;height:4px;
+  background:linear-gradient(90deg,var(--red) 0 33.33%,var(--green) 33.33% 66.66%,var(--royal) 66.66% 100%);
+}
+.tab:focus-visible{outline:2px solid #fff;outline-offset:-2px}
+.badge{
+  display:inline-block;min-width:18px;margin-left:6px;padding:1px 5px;
+  background:var(--red);color:#fff;border-radius:9px;
+  font-size:10px;font-weight:800;vertical-align:2px;letter-spacing:0;
+}
 
-/* ── TZ strip ── */
-.tz-strip{background:var(--navy);border-top:1px solid rgba(255,255,255,.1)}
-.tz-inner{max-width:1080px;margin:0 auto;padding:6px 16px;display:flex;align-items:center;gap:6px}
-.tz-label{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;margin-right:2px}
-.tz-btn{appearance:none;border:1px solid rgba(255,255,255,.2);background:none;color:rgba(255,255,255,.55);font-family:'Inter';font-weight:600;font-size:11px;padding:3px 10px;border-radius:20px;cursor:pointer;transition:all .15s;white-space:nowrap}
-.tz-btn:hover{color:#fff;border-color:rgba(255,255,255,.5)}
-.tz-btn.active{background:#F59E0B;border-color:#F59E0B;color:#000}
+/* ── Timezone strip ── */
+.tz-strip{background:var(--ink-2)}
+.tz-inner{max-width:1060px;margin:0 auto;padding:7px 18px;display:flex;align-items:center;gap:7px}
+.tz-label{font-size:10px;color:rgba(255,255,255,.45);letter-spacing:.18em;text-transform:uppercase;font-weight:600;margin-right:2px}
+.tz-btn{
+  appearance:none;border:1px solid rgba(255,255,255,.25);background:none;
+  color:rgba(255,255,255,.65);font-family:'Archivo';font-weight:600;font-size:12px;
+  padding:3px 12px;border-radius:99px;cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.tz-btn:hover{color:#fff;border-color:rgba(255,255,255,.6)}
+.tz-btn.active{background:#fff;border-color:#fff;color:var(--ink)}
+.tz-btn:focus-visible{outline:2px solid #fff;outline-offset:1px}
 
 /* ── Layout ── */
-main{max-width:1080px;margin:0 auto;padding:20px 16px 80px}
+main{max-width:1060px;margin:0 auto;padding:22px 16px 80px}
 .view{display:none}.view.on{display:block}
 
-/* ── Live cards ── */
-.live-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
-.lcard{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow-md);border:2px solid var(--red);overflow:hidden}
-.lcard-top{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 0;font-size:11px;font-weight:600;color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
-.live-pip{display:flex;align-items:center;gap:5px;color:var(--red);font-weight:700}
-.pulse{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 1.4s infinite;flex:0 0 auto}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
-@media(prefers-reduced-motion:reduce){.pulse{animation:none}}
-.lcard-body{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:14px 14px 18px}
-.lt{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
-.lt .flag{font-size:2em;line-height:1}
-.lt .name{font-size:13px;font-weight:600;color:var(--text)}
-.bigscore{font-family:'Oswald';font-weight:700;font-size:38px;color:var(--navy);letter-spacing:.02em;text-align:center}
-.lcard-foot{background:var(--surface2);padding:8px 14px;font-size:11px;color:var(--dim);text-align:center;text-transform:uppercase;letter-spacing:.05em;border-top:1px solid var(--border)}
+/* ── Live ── */
+.live-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.lcard{
+  background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);
+  border:1px solid var(--line);overflow:hidden;position:relative;
+}
+.lcard::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:6px;
+  background:linear-gradient(180deg,var(--red) 0 33.33%,var(--green) 33.33% 66.66%,var(--royal) 66.66% 100%);
+}
+.lcard-top{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px 0 20px;
+  font-size:11px;font-weight:700;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;
+}
+.live-pip{display:flex;align-items:center;gap:6px;color:var(--red)}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse 1.3s infinite;flex:0 0 auto}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+.lcard-body{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:16px 16px 18px 20px}
+.lt{display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center}
+.lt .flag{font-size:2.3em;line-height:1}
+.lt .name{font-size:13px;font-weight:700;color:var(--ink)}
+.bigscore{
+  font-family:'Anton',sans-serif;font-size:46px;line-height:1;color:var(--ink);
+  letter-spacing:.02em;text-align:center;font-variant-numeric:tabular-nums;
+}
+.lcard-foot{
+  background:var(--paper);padding:8px 16px 8px 20px;border-top:1px solid var(--line);
+  font-size:10px;font-weight:600;color:var(--dim);letter-spacing:.12em;text-transform:uppercase;
+}
 
 /* ── Fixtures ── */
-.fx-controls{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
-select{background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'Inter';font-size:14px;cursor:pointer;box-shadow:var(--shadow)}
-select:focus{outline:2px solid var(--blue);outline-offset:1px}
-.fx-date-hdr{font-size:12px;font-weight:700;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;margin:22px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.fx-controls{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+select{
+  background:var(--card);color:var(--ink);border:1.5px solid var(--ink);
+  border-radius:99px;padding:7px 14px;font-family:'Archivo';font-weight:600;
+  font-size:13px;cursor:pointer;
+}
+select:focus-visible{outline:2px solid var(--royal);outline-offset:1px}
+.fx-date-hdr{
+  font-family:'Anton',sans-serif;font-size:15px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink);margin:26px 0 10px;padding-bottom:7px;position:relative;
+}
+.fx-date-hdr::after{
+  content:"";position:absolute;left:0;bottom:0;width:34px;height:4px;
+  background:linear-gradient(90deg,var(--red) 0 33.33%,var(--green) 33.33% 66.66%,var(--royal) 66.66% 100%);
+}
 .fx-date-hdr:first-child{margin-top:0}
-.fx{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;background:var(--surface);border-radius:10px;box-shadow:var(--shadow);padding:12px 14px;margin-bottom:8px;border:1px solid var(--border);transition:border-color .2s}
-.fx.live{border-color:var(--red);box-shadow:0 0 0 2px rgba(220,38,38,.12),var(--shadow)}
-.fside{display:flex;align-items:center;gap:7px;min-width:0}
+.fx{
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;
+  background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);
+  padding:13px 16px;margin-bottom:9px;border:1px solid var(--line);
+}
+.fx.live{border-color:var(--red);box-shadow:0 0 0 2px rgba(215,38,61,.14),var(--shadow)}
+.fside{display:flex;align-items:center;gap:8px;min-width:0}
 .fside.away{justify-content:flex-end;text-align:right}
-.fside .flag{font-size:1.1em;flex:0 0 auto}
+.fside .flag{font-size:1.25em;flex:0 0 auto}
 .fside .tn{font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1 1 0;min-width:0}
-.fside .tc{display:none;font-weight:700;font-size:12px;letter-spacing:.05em;color:var(--dim);flex:0 0 auto}
-.fmid{text-align:center;min-width:76px}
-.fmid .score{font-family:'Oswald';font-weight:700;font-size:20px;color:var(--navy);letter-spacing:.04em}
-.fmid .ko{font-weight:700;font-size:15px;color:var(--navy)}
-.fmid .sub{display:block;font-size:10px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;margin-top:1px}
-.fmid .sub.live-sub{color:var(--red);font-weight:700}
-.venue-row{grid-column:1/-1;text-align:center;font-size:10px;color:var(--dim);letter-spacing:.04em;text-transform:uppercase;margin-top:-2px}
+.fside .tc{display:none;font-weight:800;font-size:12.5px;letter-spacing:.06em;color:var(--ink);flex:0 0 auto}
+.fmid{text-align:center;min-width:80px}
+.fmid .score{font-family:'Anton',sans-serif;font-weight:400;font-size:23px;color:var(--ink);letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.fmid .ko{font-weight:800;font-size:15px;color:var(--ink);font-variant-numeric:tabular-nums}
+.fmid .sub{display:block;font-size:9.5px;font-weight:700;color:var(--dim);letter-spacing:.12em;text-transform:uppercase;margin-top:2px}
+.fmid .sub.live-sub{color:var(--red)}
+.venue-row{
+  grid-column:1/-1;text-align:center;font-size:9.5px;font-weight:600;
+  color:var(--dim);letter-spacing:.1em;text-transform:uppercase;margin-top:-1px;
+}
 
 /* ── Groups ── */
-.groups-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(310px,1fr))}
-.gcard{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden}
-.gcard-head{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--surface2)}
-.gcard-head h2{font-family:'Oswald';font-size:14px;font-weight:700;letter-spacing:.1em;color:var(--navy);text-transform:uppercase}
-.gcard-head .glet{font-family:'Oswald';font-size:20px;font-weight:700;color:var(--blue);letter-spacing:.02em}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{font-size:10px;font-weight:600;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;padding:7px 4px;text-align:center}
-th.tcol{text-align:left;padding-left:12px}
-td{padding:8px 4px;text-align:center;border-top:1px solid var(--border)}
-td.tcol{text-align:left;padding-left:12px;font-weight:500}
-td.tcol .row{display:flex;align-items:center;gap:7px}
-td.pts{font-family:'Oswald';font-weight:700;font-size:15px;color:var(--navy)}
+.groups-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(315px,1fr))}
+.gcard{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);border:1px solid var(--line);overflow:hidden}
+.gcard-head{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 16px;background:var(--ink);
+}
+.gcard-head h2{
+  font-size:10px;font-weight:700;letter-spacing:.3em;color:rgba(255,255,255,.55);
+  text-transform:uppercase;
+}
+.gcard-head .glet{
+  font-family:'Anton',sans-serif;font-size:26px;line-height:1;color:#fff;
+  margin-left:auto;
+}
+table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+th{font-size:9.5px;font-weight:700;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;padding:8px 4px;text-align:center}
+th.tcol{text-align:left;padding-left:14px}
+td{padding:9px 4px;text-align:center;border-top:1px solid var(--line)}
+td.tcol{text-align:left;padding-left:14px;font-weight:600}
+td.tcol .row{display:flex;align-items:center;gap:8px}
+td.pts{font-family:'Anton',sans-serif;font-size:16px;color:var(--ink)}
 tr.q1 td:first-child{box-shadow:inset 3px 0 0 var(--green)}
-tr.q3 td:first-child{box-shadow:inset 3px 0 0 var(--amber)}
-.legend{display:flex;gap:16px;flex-wrap:wrap;margin:14px 2px 20px;font-size:12px;color:var(--dim)}
-.lkey{display:flex;align-items:center;gap:6px}
-.lkey i{width:10px;height:10px;border-radius:2px}
+tr.q3 td:first-child{box-shadow:inset 3px 0 0 var(--royal)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin:0 2px 18px;font-size:12px;font-weight:600;color:var(--dim)}
+.lkey{display:flex;align-items:center;gap:7px}
+.lkey i{width:11px;height:11px;border-radius:2px}
 .lkey i.g{background:var(--green)}
-.lkey i.y{background:var(--amber)}
+.lkey i.b{background:var(--royal)}
 
-/* ── Empty ── */
-.empty{text-align:center;padding:60px 20px;color:var(--dim)}
-.empty h3{font-family:'Oswald';font-size:18px;color:var(--navy);margin-bottom:6px;letter-spacing:.04em}
+/* ── Empty / footer ── */
+.empty{text-align:center;padding:64px 20px;color:var(--dim)}
+.empty h3{font-family:'Anton',sans-serif;font-size:21px;color:var(--ink);margin-bottom:8px;letter-spacing:.04em;text-transform:uppercase}
+footer{max-width:1060px;margin:0 auto;padding:0 16px 36px;font-size:11px;color:var(--dim);text-align:center}
 
-footer{max-width:1080px;margin:0 auto;padding:0 16px 32px;font-size:11px;color:var(--dim);text-align:center}
-@media(prefers-color-scheme:dark){html,body{background:#F2F4F7 !important;color:#111827 !important}.surface,.gcard,.lcard,.fx,select{background:#ffffff !important;color:#111827 !important}}
+/* ── Motion & accessibility ── */
+@media(prefers-reduced-motion:reduce){.pulse{animation:none}}
+@media(prefers-color-scheme:dark){
+  html,body{background:#F6F5F1 !important;color:#101A3E !important}
+  .gcard,.lcard,.fx,select{background:#fff !important;color:#101A3E !important}
+}
 
 /* ── Mobile ── */
 @media(max-width:600px){
   html,body{overflow-x:hidden;max-width:100vw}
-  main{padding:14px 12px 80px}
-  nav{overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap;padding:0 10px}
+  main{padding:16px 12px 80px}
+  .head-inner{padding:14px 14px 2px}
+  .wordmark{font-size:24px}
+  .stamp{font-size:9.5px}
+  nav{overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap;padding:4px 6px 0}
   nav::-webkit-scrollbar{display:none}
-  .tab{font-size:12px;padding:11px 12px 9px;white-space:nowrap}
-  .tz-inner{overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap;gap:5px}
+  .tab{font-size:12px;padding:10px 12px 11px;white-space:nowrap}
+  .tz-inner{overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap;gap:6px;padding:7px 14px}
   .tz-inner::-webkit-scrollbar{display:none}
   .tz-label{display:none}
   .groups-grid{grid-template-columns:1fr}
@@ -134,9 +231,9 @@ footer{max-width:1080px;margin:0 auto;padding:0 16px 32px;font-size:11px;color:v
   table th:nth-child(5),table td:nth-child(5){display:none}
   .fside .tn{display:none}
   .fside .tc{display:inline}
-  .fx{padding:10px 10px;gap:6px}
-  .fmid{min-width:64px}
-  .bigscore{font-size:32px}
+  .fx{padding:11px 11px;gap:7px}
+  .fmid{min-width:66px}
+  .bigscore{font-size:38px}
 }
 </style>
 </head>
@@ -144,7 +241,10 @@ footer{max-width:1080px;margin:0 auto;padding:0 16px 32px;font-size:11px;color:v
 
 <header>
   <div class="head-inner">
-    <div class="wordmark">WORLD CUP <span>2026</span></div>
+    <div>
+      <div class="eyebrow">Canada · United States · Mexico</div>
+      <div class="wordmark">World Cup <span class="two6"><span>26</span></span></div>
+    </div>
     <div class="stamp" id="stamp">JUN 11 – JUL 19</div>
   </div>
   <nav role="tablist">
@@ -155,7 +255,7 @@ footer{max-width:1080px;margin:0 auto;padding:0 16px 32px;font-size:11px;color:v
 </header>
 <div class="tz-strip">
   <div class="tz-inner">
-    <span class="tz-label">Time</span>
+    <span class="tz-label">Kick-off times</span>
     <button class="tz-btn active" data-tz="Australia/Sydney" data-label="SYD">🇦🇺 Sydney</button>
     <button class="tz-btn" data-tz="Europe/Dublin" data-label="IRL">🇮🇪 Ireland</button>
   </div>
@@ -186,13 +286,13 @@ footer{max-width:1080px;margin:0 auto;padding:0 16px 32px;font-size:11px;color:v
   <section class="view" id="view-groups">
     <div class="legend">
       <span class="lkey"><i class="g"></i> Top 2 advance</span>
-      <span class="lkey"><i class="y"></i> Best 3rd place</span>
+      <span class="lkey"><i class="b"></i> Best 3rd place</span>
     </div>
     <div class="groups-grid" id="groupsGrid"></div>
   </section>
 </main>
 
-<footer>All kick-off times shown in selected timezone · Group stage · 72 matches across 16 venues · Data: worldcup26.ir</footer>
+<footer>Group stage · 72 matches · 16 stadiums across Canada, the United States and Mexico · All kick-off times shown in your selected timezone</footer>
 
 <script>
 const DATA = {"teams":[{"id":1,"name":"Mexico","flag":"https://flagcdn.com/w80/mx.png","code":"MEX","iso2":"MX","group":"A"},{"id":2,"name":"South Africa","flag":"https://flagcdn.com/w80/za.png","code":"RSA","iso2":"ZA","group":"A"},{"id":3,"name":"South Korea","flag":"https://flagcdn.com/w80/kr.png","code":"KOR","iso2":"KR","group":"A"},{"id":4,"name":"Czechia","flag":"https://flagcdn.com/w80/cz.png","code":"CZE","iso2":"CZ","group":"A"},{"id":5,"name":"Canada","flag":"https://flagcdn.com/w80/ca.png","code":"CAN","iso2":"CA","group":"B"},{"id":6,"name":"Bosnia and Herzegovina","flag":"https://flagcdn.com/w80/ba.png","code":"BIH","iso2":"BA","group":"B"},{"id":7,"name":"Qatar","flag":"https://flagcdn.com/w80/qa.png","code":"QAT","iso2":"QA","group":"B"},{"id":8,"name":"Switzerland","flag":"https://flagcdn.com/w80/ch.png","code":"SUI","iso2":"CH","group":"B"},{"id":9,"name":"Brazil","flag":"https://flagcdn.com/w80/br.png","code":"BRA","iso2":"BR","group":"C"},{"id":10,"name":"Morocco","flag":"https://flagcdn.com/w80/ma.png","code":"MAR","iso2":"MA","group":"C"},{"id":11,"name":"Haiti","flag":"https://flagcdn.com/w80/ht.png","code":"HAI","iso2":"HT","group":"C"},{"id":12,"name":"Scotland","flag":"https://flagcdn.com/w80/gb-sct.png","code":"SCO","iso2":"SCO","group":"C"},{"id":13,"name":"United States","flag":"https://flagcdn.com/w80/us.png","code":"USA","iso2":"US","group":"D"},{"id":14,"name":"Paraguay","flag":"https://flagcdn.com/w80/py.png","code":"PAR","iso2":"PY","group":"D"},{"id":15,"name":"Australia","flag":"https://flagcdn.com/w80/au.png","code":"AUS","iso2":"AU","group":"D"},{"id":16,"name":"Türkiye","flag":"https://flagcdn.com/w80/tr.png","code":"TUR","iso2":"TR","group":"D"},{"id":17,"name":"Germany","flag":"https://flagcdn.com/w80/de.png","code":"GER","iso2":"DE","group":"E"},{"id":18,"name":"Curaçao","flag":"https://flagcdn.com/w80/cw.png","code":"CUW","iso2":"CW","group":"E"},{"id":19,"name":"Ivory Coast","flag":"https://flagcdn.com/w80/ci.png","code":"CIV","iso2":"CI","group":"E"},{"id":20,"name":"Ecuador","flag":"https://flagcdn.com/w80/ec.png","code":"ECU","iso2":"EC","group":"E"},{"id":21,"name":"Netherlands","flag":"https://flagcdn.com/w80/nl.png","code":"NED","iso2":"NL","group":"F"},{"id":22,"name":"Japan","flag":"https://flagcdn.com/w80/jp.png","code":"JPN","iso2":"JP","group":"F"},{"id":23,"name":"Sweden","flag":"https://flagcdn.com/w80/se.png","code":"SWE","iso2":"SE","group":"F"},{"id":24,"name":"Tunisia","flag":"https://flagcdn.com/w80/tn.png","code":"TUN","iso2":"TN","group":"F"},{"id":25,"name":"Belgium","flag":"https://flagcdn.com/w80/be.png","code":"BEL","iso2":"BE","group":"G"},{"id":26,"name":"Egypt","flag":"https://flagcdn.com/w80/eg.png","code":"EGY","iso2":"EG","group":"G"},{"id":27,"name":"Iran","flag":"https://flagcdn.com/w80/ir.png","code":"IRN","iso2":"IR","group":"G"},{"id":28,"name":"New Zealand","flag":"https://flagcdn.com/w80/nz.png","code":"NZL","iso2":"NZ","group":"G"},{"id":29,"name":"Spain","flag":"https://flagcdn.com/w80/es.png","code":"ESP","iso2":"ES","group":"H"},{"id":30,"name":"Cape Verde","flag":"https://flagcdn.com/w80/cv.png","code":"CPV","iso2":"CV","group":"H"},{"id":31,"name":"Saudi Arabia","flag":"https://flagcdn.com/w80/sa.png","code":"KSA","iso2":"SA","group":"H"},{"id":32,"name":"Uruguay","flag":"https://flagcdn.com/w80/uy.png","code":"URU","iso2":"UY","group":"H"},{"id":33,"name":"France","flag":"https://flagcdn.com/w80/fr.png","code":"FRA","iso2":"FR","group":"I"},{"id":34,"name":"Senegal","flag":"https://flagcdn.com/w80/sn.png","code":"SEN","iso2":"SN","group":"I"},{"id":35,"name":"Iraq","flag":"https://flagcdn.com/w80/iq.png","code":"IRQ","iso2":"IQ","group":"I"},{"id":36,"name":"Norway","flag":"https://flagcdn.com/w80/no.png","code":"NOR","iso2":"NO","group":"I"},{"id":37,"name":"Argentina","flag":"https://flagcdn.com/w80/ar.png","code":"ARG","iso2":"AR","group":"J"},{"id":38,"name":"Algeria","flag":"https://flagcdn.com/w80/dz.png","code":"ALG","iso2":"DZ","group":"J"},{"id":39,"name":"Austria","flag":"https://flagcdn.com/w80/at.png","code":"AUT","iso2":"AT","group":"J"},{"id":40,"name":"Jordan","flag":"https://flagcdn.com/w80/jo.png","code":"JOR","iso2":"JO","group":"J"},{"id":41,"name":"Portugal","flag":"https://flagcdn.com/w80/pt.png","code":"POR","iso2":"PT","group":"K"},{"id":42,"name":"DR Congo","flag":"https://flagcdn.com/w80/cd.png","code":"COD","iso2":"CD","group":"K"},{"id":43,"name":"Uzbekistan","flag":"https://flagcdn.com/w80/uz.png","code":"UZB","iso2":"UZ","group":"K"},{"id":44,"name":"Colombia","flag":"https://flagcdn.com/w80/co.png","code":"COL","iso2":"CO","group":"K"},{"id":45,"name":"England","flag":"https://flagcdn.com/w80/gb-eng.png","code":"ENG","iso2":"ENG","group":"L"},{"id":46,"name":"Croatia","flag":"https://flagcdn.com/w80/hr.png","code":"CRO","iso2":"HR","group":"L"},{"id":47,"name":"Ghana","flag":"https://flagcdn.com/w80/gh.png","code":"GHA","iso2":"GH","group":"L"},{"id":48,"name":"Panama","flag":"https://flagcdn.com/w80/pa.png","code":"PAN","iso2":"PA","group":"L"}],"stadia":[{"id":1,"name":"Estadio Azteca","city":"Mexico City","country":"Mexico","capacity":83000},{"id":2,"name":"Estadio Akron","city":"Guadalajara (Zapopan)","country":"Mexico","capacity":48000},{"id":3,"name":"Estadio BBVA","city":"Monterrey (Guadalupe)","country":"Mexico","capacity":53500},{"id":4,"name":"AT&T Stadium","city":"Dallas (Arlington, Texas)","country":"United States","capacity":94000},{"id":5,"name":"NRG Stadium","city":"Houston","country":"United States","capacity":72000},{"id":6,"name":"GEHA Field at Arrowhead Stadium","city":"Kansas City","country":"United States","capacity":73000},{"id":7,"name":"Mercedes-Benz Stadium","city":"Atlanta","country":"United States","capacity":75000},{"id":8,"name":"Hard Rock Stadium","city":"Miami (Miami Gardens)","country":"United States","capacity":65000},{"id":9,"name":"Gillette Stadium","city":"Boston (Foxborough)","country":"United States","capacity":65000},{"id":10,"name":"Lincoln Financial Field","city":"Philadelphia","country":"United States","capacity":69000},{"id":11,"name":"MetLife Stadium","city":"New York/New Jersey (East Rutherford)","country":"United States","capacity":82500},{"id":12,"name":"BMO Field","city":"Toronto","country":"Canada","capacity":45000},{"id":13,"name":"BC Place","city":"Vancouver","country":"Canada","capacity":54000},{"id":14,"name":"Lumen Field","city":"Seattle","country":"United States","capacity":69000},{"id":15,"name":"Levi's Stadium","city":"San Francisco Bay Area (Santa Clara)","country":"United States","capacity":71000},{"id":16,"name":"SoFi Stadium","city":"Los Angeles (Inglewood)","country":"United States","capacity":70000}],"games":[{"id":1,"home":1,"away":2,"home_score":0,"away_score":0,"group":"A","matchday":1,"date_iso":"2026-06-11T19:00:00.000Z","local_date":"","stadium_id":1,"finished":false,"status":"notstarted"},{"id":2,"home":3,"away":4,"home_score":0,"away_score":0,"group":"A","matchday":1,"date_iso":"2026-06-12T02:00:00.000Z","local_date":"","stadium_id":2,"finished":false,"status":"notstarted"},{"id":3,"home":5,"away":6,"home_score":0,"away_score":0,"group":"B","matchday":1,"date_iso":"2026-06-12T19:00:00.000Z","local_date":"","stadium_id":3,"finished":false,"status":"notstarted"},{"id":4,"home":13,"away":14,"home_score":0,"away_score":0,"group":"D","matchday":1,"date_iso":"2026-06-13T01:00:00.000Z","local_date":"","stadium_id":4,"finished":false,"status":"notstarted"},{"id":5,"home":7,"away":8,"home_score":0,"away_score":0,"group":"B","matchday":1,"date_iso":"2026-06-13T19:00:00.000Z","local_date":"","stadium_id":6,"finished":false,"status":"notstarted"},{"id":6,"home":9,"away":10,"home_score":0,"away_score":0,"group":"C","matchday":1,"date_iso":"2026-06-13T22:00:00.000Z","local_date":"","stadium_id":7,"finished":false,"status":"notstarted"},{"id":7,"home":11,"away":12,"home_score":0,"away_score":0,"group":"C","matchday":1,"date_iso":"2026-06-14T01:00:00.000Z","local_date":"","stadium_id":5,"finished":false,"status":"notstarted"},{"id":8,"home":15,"away":16,"home_score":0,"away_score":0,"group":"D","matchday":1,"date_iso":"2026-06-14T04:00:00.000Z","local_date":"","stadium_id":6,"finished":false,"status":"notstarted"},{"id":9,"home":17,"away":18,"home_score":0,"away_score":0,"group":"E","matchday":1,"date_iso":"2026-06-14T17:00:00.000Z","local_date":"","stadium_id":10,"finished":false,"status":"notstarted"},{"id":10,"home":21,"away":22,"home_score":0,"away_score":0,"group":"F","matchday":1,"date_iso":"2026-06-14T20:00:00.000Z","local_date":"","stadium_id":11,"finished":false,"status":"notstarted"},{"id":11,"home":19,"away":20,"home_score":0,"away_score":0,"group":"E","matchday":1,"date_iso":"2026-06-14T23:00:00.000Z","local_date":"","stadium_id":9,"finished":false,"status":"notstarted"},{"id":12,"home":23,"away":24,"home_score":0,"away_score":0,"group":"F","matchday":1,"date_iso":"2026-06-15T02:00:00.000Z","local_date":"","stadium_id":12,"finished":false,"status":"notstarted"},{"id":13,"home":29,"away":30,"home_score":0,"away_score":0,"group":"H","matchday":1,"date_iso":"2026-06-15T16:00:00.000Z","local_date":"","stadium_id":14,"finished":false,"status":"notstarted"},{"id":14,"home":25,"away":26,"home_score":0,"away_score":0,"group":"G","matchday":1,"date_iso":"2026-06-15T19:00:00.000Z","local_date":"","stadium_id":15,"finished":false,"status":"notstarted"},{"id":15,"home":31,"away":32,"home_score":0,"away_score":0,"group":"H","matchday":1,"date_iso":"2026-06-15T22:00:00.000Z","local_date":"","stadium_id":16,"finished":false,"status":"notstarted"},{"id":16,"home":27,"away":28,"home_score":0,"away_score":0,"group":"G","matchday":1,"date_iso":"2026-06-16T01:00:00.000Z","local_date":"","stadium_id":13,"finished":false,"status":"notstarted"},{"id":17,"home":33,"away":34,"home_score":0,"away_score":0,"group":"I","matchday":1,"date_iso":"2026-06-16T19:00:00.000Z","local_date":"","stadium_id":1,"finished":false,"status":"notstarted"},{"id":18,"home":35,"away":36,"home_score":0,"away_score":0,"group":"I","matchday":1,"date_iso":"2026-06-16T22:00:00.000Z","local_date":"","stadium_id":2,"finished":false,"status":"notstarted"},{"id":19,"home":37,"away":38,"home_score":0,"away_score":0,"group":"J","matchday":1,"date_iso":"2026-06-17T01:00:00.000Z","local_date":"","stadium_id":3,"finished":false,"status":"notstarted"},{"id":20,"home":39,"away":40,"home_score":0,"away_score":0,"group":"J","matchday":1,"date_iso":"2026-06-17T04:00:00.000Z","local_date":"","stadium_id":4,"finished":false,"status":"notstarted"},{"id":21,"home":41,"away":42,"home_score":0,"away_score":0,"group":"K","matchday":1,"date_iso":"2026-06-17T17:00:00.000Z","local_date":"","stadium_id":5,"finished":false,"status":"notstarted"},{"id":22,"home":45,"away":46,"home_score":0,"away_score":0,"group":"L","matchday":1,"date_iso":"2026-06-17T20:00:00.000Z","local_date":"","stadium_id":6,"finished":false,"status":"notstarted"},{"id":23,"home":47,"away":48,"home_score":0,"away_score":0,"group":"L","matchday":1,"date_iso":"2026-06-17T23:00:00.000Z","local_date":"","stadium_id":8,"finished":false,"status":"notstarted"},{"id":24,"home":43,"away":44,"home_score":0,"away_score":0,"group":"K","matchday":1,"date_iso":"2026-06-18T02:00:00.000Z","local_date":"","stadium_id":7,"finished":false,"status":"notstarted"},{"id":25,"home":4,"away":2,"home_score":0,"away_score":0,"group":"A","matchday":2,"date_iso":"2026-06-18T16:00:00.000Z","local_date":"","stadium_id":12,"finished":false,"status":"notstarted"},{"id":26,"home":8,"away":6,"home_score":0,"away_score":0,"group":"B","matchday":2,"date_iso":"2026-06-18T19:00:00.000Z","local_date":"","stadium_id":10,"finished":false,"status":"notstarted"},{"id":27,"home":5,"away":7,"home_score":0,"away_score":0,"group":"B","matchday":2,"date_iso":"2026-06-18T22:00:00.000Z","local_date":"","stadium_id":11,"finished":false,"status":"notstarted"},{"id":28,"home":1,"away":3,"home_score":0,"away_score":0,"group":"A","matchday":2,"date_iso":"2026-06-19T01:00:00.000Z","local_date":"","stadium_id":9,"finished":false,"status":"notstarted"},{"id":29,"home":13,"away":15,"home_score":0,"away_score":0,"group":"D","matchday":2,"date_iso":"2026-06-19T19:00:00.000Z","local_date":"","stadium_id":15,"finished":false,"status":"notstarted"},{"id":30,"home":12,"away":10,"home_score":0,"away_score":0,"group":"C","matchday":2,"date_iso":"2026-06-19T22:00:00.000Z","local_date":"","stadium_id":14,"finished":false,"status":"notstarted"},{"id":31,"home":9,"away":11,"home_score":0,"away_score":0,"group":"C","matchday":2,"date_iso":"2026-06-20T00:30:00.000Z","local_date":"","stadium_id":13,"finished":false,"status":"notstarted"},{"id":32,"home":16,"away":14,"home_score":0,"away_score":0,"group":"D","matchday":2,"date_iso":"2026-06-20T03:00:00.000Z","local_date":"","stadium_id":16,"finished":false,"status":"notstarted"},{"id":33,"home":21,"away":23,"home_score":0,"away_score":0,"group":"F","matchday":2,"date_iso":"2026-06-20T17:00:00.000Z","local_date":"","stadium_id":3,"finished":false,"status":"notstarted"},{"id":34,"home":17,"away":19,"home_score":0,"away_score":0,"group":"E","matchday":2,"date_iso":"2026-06-20T20:00:00.000Z","local_date":"","stadium_id":1,"finished":false,"status":"notstarted"},{"id":35,"home":20,"away":18,"home_score":0,"away_score":0,"group":"E","matchday":2,"date_iso":"2026-06-21T00:00:00.000Z","local_date":"","stadium_id":2,"finished":false,"status":"notstarted"},{"id":36,"home":24,"away":22,"home_score":0,"away_score":0,"group":"F","matchday":2,"date_iso":"2026-06-21T04:00:00.000Z","local_date":"","stadium_id":4,"finished":false,"status":"notstarted"},{"id":37,"home":29,"away":31,"home_score":0,"away_score":0,"group":"H","matchday":2,"date_iso":"2026-06-21T16:00:00.000Z","local_date":"","stadium_id":7,"finished":false,"status":"notstarted"},{"id":38,"home":25,"away":27,"home_score":0,"away_score":0,"group":"G","matchday":2,"date_iso":"2026-06-21T19:00:00.000Z","local_date":"","stadium_id":5,"finished":false,"status":"notstarted"},{"id":39,"home":32,"away":30,"home_score":0,"away_score":0,"group":"H","matchday":2,"date_iso":"2026-06-21T22:00:00.000Z","local_date":"","stadium_id":8,"finished":false,"status":"notstarted"},{"id":40,"home":28,"away":26,"home_score":0,"away_score":0,"group":"G","matchday":2,"date_iso":"2026-06-22T01:00:00.000Z","local_date":"","stadium_id":6,"finished":false,"status":"notstarted"},{"id":41,"home":37,"away":39,"home_score":0,"away_score":0,"group":"J","matchday":2,"date_iso":"2026-06-22T17:00:00.000Z","local_date":"","stadium_id":11,"finished":false,"status":"notstarted"},{"id":42,"home":33,"away":35,"home_score":0,"away_score":0,"group":"I","matchday":2,"date_iso":"2026-06-22T21:00:00.000Z","local_date":"","stadium_id":9,"finished":false,"status":"notstarted"},{"id":43,"home":36,"away":34,"home_score":0,"away_score":0,"group":"I","matchday":2,"date_iso":"2026-06-23T00:00:00.000Z","local_date":"","stadium_id":10,"finished":false,"status":"notstarted"},{"id":44,"home":40,"away":38,"home_score":0,"away_score":0,"group":"J","matchday":2,"date_iso":"2026-06-23T03:00:00.000Z","local_date":"","stadium_id":12,"finished":false,"status":"notstarted"},{"id":45,"home":41,"away":43,"home_score":0,"away_score":0,"group":"K","matchday":2,"date_iso":"2026-06-23T17:00:00.000Z","local_date":"","stadium_id":13,"finished":false,"status":"notstarted"},{"id":46,"home":45,"away":47,"home_score":0,"away_score":0,"group":"L","matchday":2,"date_iso":"2026-06-23T20:00:00.000Z","local_date":"","stadium_id":16,"finished":false,"status":"notstarted"},{"id":47,"home":48,"away":46,"home_score":0,"away_score":0,"group":"L","matchday":2,"date_iso":"2026-06-23T23:00:00.000Z","local_date":"","stadium_id":14,"finished":false,"status":"notstarted"},{"id":48,"home":44,"away":42,"home_score":0,"away_score":0,"group":"K","matchday":2,"date_iso":"2026-06-24T02:00:00.000Z","local_date":"","stadium_id":15,"finished":false,"status":"notstarted"},{"id":49,"home":8,"away":5,"home_score":0,"away_score":0,"group":"B","matchday":3,"date_iso":"2026-06-24T19:00:00.000Z","local_date":"","stadium_id":null,"finished":false,"status":"notstarted"},{"id":50,"home":6,"away":7,"home_score":0,"away_score":0,"group":"B","matchday":3,"date_iso":"2026-06-24T19:00:00.000Z","local_date":"","stadium_id":null,"finished":false,"status":"notstarted"},{"id":51,"home":10,"away":11,"home_score":0,"away_score":0,"group":"C","matchday":3,"date_iso":"2026-06-24T22:00:00.000Z","local_date":"","stadium_id":2,"finished":false,"status":"notstarted"},{"id":52,"home":12,"away":9,"home_score":0,"away_score":0,"group":"C","matchday":3,"date_iso":"2026-06-24T22:00:00.000Z","local_date":"","stadium_id":1,"finished":false,"status":"notstarted"},{"id":53,"home":4,"away":1,"home_score":0,"away_score":0,"group":"A","matchday":3,"date_iso":"2026-06-25T01:00:00.000Z","local_date":"","stadium_id":4,"finished":false,"status":"notstarted"},{"id":54,"home":2,"away":3,"home_score":0,"away_score":0,"group":"A","matchday":3,"date_iso":"2026-06-25T01:00:00.000Z","local_date":"","stadium_id":3,"finished":false,"status":"notstarted"},{"id":55,"home":20,"away":17,"home_score":0,"away_score":0,"group":"E","matchday":3,"date_iso":"2026-06-25T20:00:00.000Z","local_date":"","stadium_id":8,"finished":false,"status":"notstarted"},{"id":56,"home":18,"away":19,"home_score":0,"away_score":0,"group":"E","matchday":3,"date_iso":"2026-06-25T20:00:00.000Z","local_date":"","stadium_id":7,"finished":false,"status":"notstarted"},{"id":57,"home":24,"away":21,"home_score":0,"away_score":0,"group":"F","matchday":3,"date_iso":"2026-06-25T23:00:00.000Z","local_date":"","stadium_id":12,"finished":false,"status":"notstarted"},{"id":58,"home":22,"away":23,"home_score":0,"away_score":0,"group":"F","matchday":3,"date_iso":"2026-06-25T23:00:00.000Z","local_date":"","stadium_id":11,"finished":false,"status":"notstarted"},{"id":59,"home":16,"away":13,"home_score":0,"away_score":0,"group":"D","matchday":3,"date_iso":"2026-06-26T02:00:00.000Z","local_date":"","stadium_id":10,"finished":false,"status":"notstarted"},{"id":60,"home":14,"away":15,"home_score":0,"away_score":0,"group":"D","matchday":3,"date_iso":"2026-06-26T02:00:00.000Z","local_date":"","stadium_id":9,"finished":false,"status":"notstarted"},{"id":61,"home":36,"away":33,"home_score":0,"away_score":0,"group":"I","matchday":3,"date_iso":"2026-06-26T19:00:00.000Z","local_date":"","stadium_id":14,"finished":false,"status":"notstarted"},{"id":62,"home":34,"away":35,"home_score":0,"away_score":0,"group":"I","matchday":3,"date_iso":"2026-06-26T19:00:00.000Z","local_date":"","stadium_id":13,"finished":false,"status":"notstarted"},{"id":63,"home":32,"away":29,"home_score":0,"away_score":0,"group":"H","matchday":3,"date_iso":"2026-06-27T00:00:00.000Z","local_date":"","stadium_id":2,"finished":false,"status":"notstarted"},{"id":64,"home":30,"away":31,"home_score":0,"away_score":0,"group":"H","matchday":3,"date_iso":"2026-06-27T00:00:00.000Z","local_date":"","stadium_id":1,"finished":false,"status":"notstarted"},{"id":65,"home":28,"away":25,"home_score":0,"away_score":0,"group":"G","matchday":3,"date_iso":"2026-06-27T03:00:00.000Z","local_date":"","stadium_id":16,"finished":false,"status":"notstarted"},{"id":66,"home":26,"away":27,"home_score":0,"away_score":0,"group":"G","matchday":3,"date_iso":"2026-06-27T03:00:00.000Z","local_date":"","stadium_id":15,"finished":false,"status":"notstarted"},{"id":67,"home":48,"away":45,"home_score":0,"away_score":0,"group":"L","matchday":3,"date_iso":"2026-06-27T21:00:00.000Z","local_date":"","stadium_id":3,"finished":false,"status":"notstarted"},{"id":68,"home":46,"away":47,"home_score":0,"away_score":0,"group":"L","matchday":3,"date_iso":"2026-06-27T21:00:00.000Z","local_date":"","stadium_id":4,"finished":false,"status":"notstarted"},{"id":69,"home":44,"away":41,"home_score":0,"away_score":0,"group":"K","matchday":3,"date_iso":"2026-06-27T23:30:00.000Z","local_date":"","stadium_id":7,"finished":false,"status":"notstarted"},{"id":70,"home":42,"away":43,"home_score":0,"away_score":0,"group":"K","matchday":3,"date_iso":"2026-06-27T23:30:00.000Z","local_date":"","stadium_id":8,"finished":false,"status":"notstarted"},{"id":71,"home":40,"away":37,"home_score":0,"away_score":0,"group":"J","matchday":3,"date_iso":"2026-06-28T02:00:00.000Z","local_date":"","stadium_id":6,"finished":false,"status":"notstarted"},{"id":72,"home":38,"away":39,"home_score":0,"away_score":0,"group":"J","matchday":3,"date_iso":"2026-06-28T02:00:00.000Z","local_date":"","stadium_id":5,"finished":false,"status":"notstarted"}],"groups":{"A":[1,2,3,4],"B":[5,6,7,8],"C":[9,10,11,12],"D":[13,14,15,16],"E":[17,18,19,20],"F":[21,22,23,24],"G":[25,26,27,28],"H":[29,30,31,32],"I":[33,34,35,36],"J":[37,38,39,40],"K":[41,42,43,44],"L":[45,46,47,48]}};
