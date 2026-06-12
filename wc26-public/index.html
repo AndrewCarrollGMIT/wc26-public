@@ -499,8 +499,9 @@ function restoreScores() {
   } catch(e) {}
 }
 
-// Restore cached scores immediately on load
+// Restore cached scores immediately on load, then re-render with them
 restoreScores();
+renderLive(); renderFixtures(); renderGroups();
 
 /* Live polling */
 const POLL_LIVE = 60_000, POLL_IDLE = 10*60_000;
@@ -520,17 +521,26 @@ function matchGame(r) {
 }
 
 function applyRemote(j) {
+  window.__dbg = window.__dbg || {poll:0};
+  __dbg.src = j.source || '?'; __dbg.count = (j.fixtures||[]).length;
+  __dbg.matched = 0; __dbg.applied = 0;
   if (!j.fixtures) return false;
   let changed = false;
   for (const r of j.fixtures) {
     const local = matchGame(r);
     if (!local) continue;
+    __dbg.matched++;
     if (local.finished) continue; // never modify a locked result
     const scoreChanged = local.home_score !== (r.home_score ?? 0) || local.away_score !== (r.away_score ?? 0);
     const statusChanged = (LIVE_ST.has(r.status) && local.status !== "live") || (DONE_ST.has(r.status) && !local.finished);
-    if (scoreChanged || statusChanged) changed = true;
-    if (r.home_score != null) local.home_score = r.home_score;
-    if (r.away_score != null) local.away_score = r.away_score;
+    if (scoreChanged || statusChanged) { changed = true; __dbg.applied++; }
+    // Never let a 0-0 NS payload wipe a real score (stale edge response)
+    const downgrade = (r.home_score === 0 && r.away_score === 0 && r.status === "NS" &&
+                       (local.home_score > 0 || local.away_score > 0 || local.status === "live"));
+    if (!downgrade) {
+      if (r.home_score != null) local.home_score = r.home_score;
+      if (r.away_score != null) local.away_score = r.away_score;
+    }
     if (LIVE_ST.has(r.status)) { local.status = "live"; local.finished = false; }
     else if (DONE_ST.has(r.status) || r.finished) { local.status = "finished"; local.finished = true; }
   }
@@ -548,9 +558,17 @@ async function poll() {
     if (!r.ok) return;
     const j = await r.json();
     if (applyRemote(j)) { saveScores(); renderLive(); renderFixtures(); renderGroups(); }
+    window.__dbg.poll++;
+    let bar = document.getElementById("dbgbar");
+    if (!bar) { bar = document.createElement("div"); bar.id = "dbgbar";
+      bar.style.cssText = "position:fixed;bottom:0;left:0;right:0;background:#101A3E;color:#fff;font:600 10px/1.6 monospace;padding:4px 10px;z-index:99;opacity:.92";
+      document.body.appendChild(bar); }
+    bar.textContent = "v3 | poll " + __dbg.poll + " | src " + __dbg.src + " | fixtures " + __dbg.count + " | matched " + __dbg.matched + " | changed " + __dbg.applied;
     const tzBtn = document.querySelector(".tz-btn.active");
     $("#stamp").textContent = "Updated " + new Date().toLocaleTimeString("en-AU", {timeZone:TZ, hour:"2-digit", minute:"2-digit", hour12:false}) + " · " + (tzBtn?.dataset.label || "SYD");
-  } catch(e) { console.warn("Poll failed:", e.message); }
+  } catch(e) { console.warn("Poll failed:", e.message);
+    const bar2 = document.getElementById("dbgbar");
+    if (bar2) bar2.textContent = "v3 | POLL ERROR: " + e.message; }
 }
 
 function schedule() { setTimeout(async () => { await poll(); schedule(); }, anyLive() ? POLL_LIVE : POLL_IDLE); }
